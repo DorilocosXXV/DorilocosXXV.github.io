@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edited Dorilocos XXV</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        body {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            margin: 0;
+            background: url('https://i.imgur.com/Xx9DopK.jpeg') no-repeat center top fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .sidebar {
+            width: 200px;
+            background: #ff6600;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            border-right: 5px solid #cc3300;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 900;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 220px;
+            transition: transform 0.3s ease;
+        }
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 4px 4px 0px #ff0000, 8px 8px 0px #000000;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            left: -100px;
+            top: -10px;
+            z-index: 800;
+            transition: transform 0.3s ease;
+        }
+        .dorito-button {
+            width: 120px;
+            height: 120px;
+            background: url('https://i.imgur.com/ZFq8TTB.png') no-repeat center center;
+            background-size: contain;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            margin: 10px 0;
+            color: #ffcc00;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 4px 4px 0px #ff0000, 8px 8px 0px #000000;
+            border: none;
+            padding: 10px;
+        }
+        .dorito-button:hover {
+            transform: scale(1.1);
+        }
+        .info-section {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 51, 0, 0.9);
+            border-radius: 10px;
+            color: white;
+            display: none;
+            box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
+            margin-left: 20px;
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            z-index: 700;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff0000;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .close-btn:hover {
+            background: #cc0000;
+        }
+        .hamburger-menu {
+            display: none; /* Oculto por defecto */
+            cursor: pointer;
+            font-size: 24px; /* Tamaño reducido */
+            color: white;
+            padding: 12px; /* Padding reducido */
+            background: #ff6600;
+            border-radius: 50%;
+            text-align: center;
+            position: fixed;
+            top: 15px; /* Posición ajustada */
+            right: 15px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 40px; /* Ancho reducido */
+            height: 40px; /* Alto reducido */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .hamburger-menu:hover {
+            background: #e65c00;
+            transform: scale(1.1);
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+                width: 90%;
+                left: 5%;
+                top: 70px; /* Posición ajustada */
+                max-height: 80vh;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+                z-index: 950;
+            }
+            .sidebar.show {
+                display: flex;
+            }
+            .hamburger-menu {
+                display: flex; /* Visible solo en móvil */
+            }
+            .main-content {
+                margin-left: 0;
+                padding-top: 80px; /* Espacio reducido */
+            }
+            .title {
+                font-size: 30px;
+                left: 15px;
+                margin-right: 40px;
+                position: fixed;
+                top: 15px; /* Posición ajustada */
+                left: 15px;
+                z-index: 850;
+            }
+            .sidebar.show ~ .main-content .title {
+                transform: translateY(50px); /* Movimiento reducido */
+            }
+            .info-section {
+                width: 90%;
+                margin-left: 0;
+                margin-top: 20px; /* Margen reducido */
+            }
+        }
+    </style>
+    <script>
+        // Objeto para mantener el estado de las secciones
+        const sectionStates = {};
+        
+        function toggleSection(sectionId) {
+            let section = document.getElementById(sectionId);
+            
+            // Si es pantalla grande (PC), alternar la visibilidad de la sección
+            if (window.innerWidth > 768) {
+                if (section.style.display === 'block') {
+                    section.style.display = 'none';
+                    sectionStates[sectionId] = false;
+                } else {
+                    document.querySelectorAll('.info-section').forEach(sec => {
+                        sec.style.display = 'none';
+                        sectionStates[sec.id] = false;
+                    });
+                    section.style.display = 'block';
+                    sectionStates[sectionId] = true;
+                }
+            } 
+            // Si es móvil, mostrar la sección y cerrar el menú
+            else {
+                document.querySelectorAll('.info-section').forEach(sec => sec.style.display = 'none');
+                if (section) section.style.display = 'block';
+                document.querySelector('.sidebar').classList.remove('show');
+            }
+        }
+        
+        function toggleSidebar() {
+            let sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('show');
+            
+            // En móvil, cerrar todas las secciones al abrir el menú
+            if (window.innerWidth <= 768) {
+                if (sidebar.classList.contains('show')) {
+                    document.querySelectorAll('.info-section').forEach(sec => {
+                        sec.style.display = 'none';
+                        sectionStates[sec.id] = false;
+                    });
+                }
+            }
+        }
+        
+        function closeSection(sectionId) {
+            document.getElementById(sectionId).style.display = 'none';
+            sectionStates[sectionId] = false;
+        }
+        
+        document.addEventListener("click", function(event) {
+            let sidebar = document.querySelector(".sidebar");
+            let hamburger = document.querySelector(".hamburger-menu");
+            if (!sidebar.contains(event.target) && event.target !== hamburger && !hamburger.contains(event.target)) {
+                sidebar.classList.remove("show");
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="hamburger-menu" onclick="toggleSidebar()">☰</div>
+    <div class="sidebar">
+        <button class="dorito-button" onclick="toggleSection('lema')">Lema</button>
+        <button class="dorito-button" onclick="toggleSection('valores')">Valores Corporativos</button>
+        <button class="dorito-button" onclick="toggleSection('vision')">Visión</button>
+        <button class="dorito-button" onclick="toggleSection('mision')">Misión</button>
+        <button class="dorito-button" onclick="toggleSection('eslogan')">Eslogan</button>
+        <button class="dorito-button" onclick="toggleSection('dorilocos')">Dorilocos</button>
+    </div>
+    <div class="main-content">
+        <div class="title">DORILOCOS</div>
+        
+        <div id="lema" class="info-section">
+            <button class="close-btn" onclick="closeSection('lema')">X</button>
+            <h2>Lema</h2><p>“Donde hay dorilocos hay fiesta”</p>
+        </div>
+        
+        <div id="valores" class="info-section">
+            <button class="close-btn" onclick="closeSection('valores')">X</button>
+            <h2>Valores Corporativos</h2><p>Unión y tolerancia para crear sabores increíbles.</p>
+        </div>
+        
+        <div id="vision" class="info-section">
+            <button class="close-btn" onclick="closeSection('vision')">X</button>
+            <h2>Visión</h2><p>Ser la mejor opción en snacks innovadores.</p>
+        </div>
+        
+        <div id="mision" class="info-section">
+            <button class="close-btn" onclick="closeSection('mision')">X</button>
+            <h2>Misión</h2><p>Brindar experiencias únicas en cada bocado.</p>
+        </div>
+        
+        <div id="eslogan" class="info-section">
+            <button class="close-btn" onclick="closeSection('eslogan')">X</button>
+            <h2>Eslogan</h2><p>¡Dorilocos, una locura de sabor!</p>
+        </div>
+        
+        <div id="dorilocos" class="info-section">
+            <button class="close-btn" onclick="closeSection('dorilocos')">X</button>
+            <h2>Dorilocos</h2><p>Combinamos ingredientes para una explosión de sabor.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
